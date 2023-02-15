@@ -1,23 +1,40 @@
-import logo from './logo.svg';
-import './App.css';
+import logo from "./logo.svg";
+import "./App.css";
+import { useEffect, useRef } from "react";
+import Scroll from "./lib/scroll";
 
 function App() {
+  const mainRoot = useRef(null);
+  const scrollPanel = useRef(null);
+  const scrollWrapper = useRef(null);
+
+  useEffect(() => {
+    const scroll = new Scroll();
+
+    scroll.connect({
+      root: mainRoot.current,
+      target: scrollPanel.current,
+      scrollWrapper: scrollWrapper.current,
+      start: "0",
+    });
+
+    return () => {
+      scroll.disconnect();
+    };
+  }, []);
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <div className="container">
+        <section className="section-1"></section>
+        <section className="section-2" ref={mainRoot}>
+          <div className="content" ref={scrollPanel}>
+            <div className="content-left"></div>
+            <div className="content-end"></div>
+          </div>
+        </section>
+        <section className="section-3"></section>
+      </div>
     </div>
   );
 }
