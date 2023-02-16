@@ -77,20 +77,17 @@ class Scroll {
     let rect = this.target.getBoundingClientRect();
     this.top = rect.top + window.scrollY;
 
-    console.log(this.leftOffset);
-
     this.finishCoords = rect.width - window.innerHeight;
-
     this.onScroll();
   }
 
   handleScroll() {
     const lastKnownScrollPosition = window.scrollY - this.top;
-    let differenceOffset =
-      (this.root.clientWidth / this.target.clientWidth) * 100;
+    const targetWidth = this.root.clientWidth + this.leftOffset * 2;
+    let differenceOffset = (targetWidth / this.target.clientWidth) * 100;
     const offset = 100 - differenceOffset;
 
-    // console.log("Diff", differenceOffset);
+    console.log("Diff", differenceOffset);
 
     if (lastKnownScrollPosition < 0) return;
 
@@ -117,7 +114,6 @@ class Scroll {
     if (Math.abs(progress) < 1.5) {
       progress = 0;
     }
-    console.log("progress", progress);
 
     this.scrollAnimation(this.target, progress, this.duration);
   }
